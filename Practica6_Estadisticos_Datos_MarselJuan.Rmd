@@ -84,8 +84,8 @@ Comentarios  |  Campo de texto libre para incluir comentarios que consideres sob
 
   - Lee los datos del fichero con `read_tsv` a una variable llamada `Datos`.
   - Convierte las variables categóricas acabadas en `.cat` a tipo `factor`. Puedes hacerlo:
-   * Usando la función `mutate_at`  (junto con `vars`, `ends_with` y `as.factor`).
-   * Usando `mutate(across())` (junto con `ends_with` y `as.factor`).
+     Usando la función `mutate_at`  (junto con `vars`, `ends_with` y `as.factor`).
+     Usando `mutate(across())` (junto con `ends_with` y `as.factor`).
 
 ```{r Solucion_Ej1, include=TRUE, echo=TRUE, eval=TRUE, results=TRUE}
 
@@ -125,15 +125,15 @@ View(Datos)
 
 Empleando la función `sumarise(across())` calcula la media, la desviación típica, mediana y el _interquartile range_ (`IQR`) de las variables que acaban en `.num` (notas numéricas).
 
-  * Ten en cuenta que no se puede realizar un análisis estadístico con datos faltantes, pero en la mayoría de los casos se puede optar por no considerar dichos valores al realizar los cálculos (`na.rm=TRUE`).
-  * Reordena los resultados para generar una tabla en la que tengas en cada fila una de las variables y en cada columna los estadísticos calculados.
+    Ten en cuenta que no se puede realizar un análisis estadístico con datos faltantes, pero en la mayoría de los casos se puede optar por no considerar dichos valores al realizar los cálculos (`na.rm=TRUE`).
+    Reordena los resultados para generar una tabla en la que tengas en cada fila una de las variables y en cada columna los estadísticos calculados.
   
     1. Primero usa `pivot_longer` para juntar todo en dos columnas, una para los nombres combinados de las variables y sus estadísticos, y otra para los valores.
     2. Luego usa `separate` para separar la columna de nombres en dos, una llamada `asignatura` con el nombre de la variable, y otra llamada `stat` con el nombre del estadístico.
     3. Por último, usa `pivot_wider` para distribuir la columna `stat` en cuatro columnas, cada una con el nombre del estadístico.
     4. Por último, combina las columnas que almacenan media y desviación típica en una columna, tipo texto, `mean`±`sd`. 
 
-*Expresa los resultados con 2 decimales*.
+ Expresa los resultados con 2 decimales .
 
 El resultado final debe ser una tabla como ésta:
 
@@ -269,9 +269,9 @@ qqPlot(Datos$ANM.num,
 
 Vamos a calcular la frecuencia de cada valor en las variables categóricas de calificaciones con la función `table`.
 
-  * Calcula la frecuencia de cada calificación para la asignatura ALG.
-  * Usa también la función `table` para calcular la tabla de contingencia con la frecuencia de cada combinación de las calificaciones de las asignaturas ALG y ANM.
-  * Representa la tabla de contingencia usando `mosaicplot`.
+    Calcula la frecuencia de cada calificación para la asignatura ALG.
+    Usa también la función `table` para calcular la tabla de contingencia con la frecuencia de cada combinación de las calificaciones de las asignaturas ALG y ANM.
+    Representa la tabla de contingencia usando `mosaicplot`.
 
 ```{r Solucion_Ej6, include=TRUE, echo=TRUE, eval=TRUE, results=TRUE}
 # 1. Calcula la frecuencia de cada calificación para la asignatura ALG
@@ -298,8 +298,8 @@ mosaicplot(tabla_contingencia,
 
 ## Ejercicio 7: Matrices de covarianza y correlación
 
-  * Calcula las matrices de covarianza (no acotada) y correlación (acotada), considerando todas las variables con las notas numéricas, para encontrar relaciones (lineales) entre variables. 
-  * Compara los resultados para el coeficiente de correlación de Pearson (para variables numéricas) y de Spearman (para variables numéricas ordinales).
+    Calcula las matrices de covarianza (no acotada) y correlación (acotada), considerando todas las variables con las notas numéricas, para encontrar relaciones (lineales) entre variables. 
+    Compara los resultados para el coeficiente de correlación de Pearson (para variables numéricas) y de Spearman (para variables numéricas ordinales).
 
 ```{r Solucion_Ej7, include=TRUE, echo=TRUE, eval=TRUE, results=TRUE}
 # 1. Seleccionar solo las variables de notas numéricas
@@ -316,14 +316,14 @@ print("--- Matriz de Covarianza ---")
 print(round(matriz_cov, 2))
 
 # 3. Calcular la Matriz de Correlación de Pearson
-# Mismo manejo de NAs. Pearson mide la relación *lineal*.
+# Mismo manejo de NAs. Pearson mide la relación  lineal .
 matriz_cor_pearson <- cor(notas_num, method = "pearson", use = "pairwise.complete.obs")
 
 print("--- Matriz de Correlación de Pearson (Lineal) ---")
 print(round(matriz_cor_pearson, 2))
 
 # 4. Calcular la Matriz de Correlación de Spearman
-# Mismo manejo de NAs. Spearman mide la relación *monotónica*
+# Mismo manejo de NAs. Spearman mide la relación  monotónica 
 # (si una variable aumenta, la otra también aumenta o disminuye,
 # pero no necesariamente de forma lineal).
 matriz_cor_spearman <- cor(notas_num, method = "spearman", use = "pairwise.complete.obs")
@@ -333,14 +333,14 @@ print(round(matriz_cor_spearman, 2))
 
 # 5. Comparación
 #
-# * La **Matriz de Covarianza** muestra la dirección de la relación (positiva o
+#   La   Matriz de Covarianza   muestra la dirección de la relación (positiva o
 #   negativa), pero su magnitud es difícil de interpretar porque depende
 #   de la escala de las variables (ej. cov(ALG, ANM) = 4.79).
-# * La **Matriz de Correlación de Pearson** normaliza la covarianza a un
+#   La   Matriz de Correlación de Pearson   normaliza la covarianza a un
 #   rango de [-1, 1]. Vemos correlaciones lineales positivas fuertes
 #   (ej. ALG y ANM tienen 0.81), lo que indica que a notas más altas
 #   en una, tienden a corresponder notas más altas en la otra de forma lineal.
-# * La **Matriz de Correlación de Spearman** es similar, pero se basa en
+#   La   Matriz de Correlación de Spearman   es similar, pero se basa en
 #   los rangos de las notas. Los valores (ej. ALG y ANM tienen 0.82)
 #   son muy parecidos a los de Pearson, lo que sugiere que las
 #   relaciones monotónicas observadas son, de hecho, bastante lineales.
@@ -350,7 +350,7 @@ print(round(matriz_cor_spearman, 2))
 
 La correlación de Pearson sirve para cuando la relación entre dos variables es lineal, mientras que la de Spearman es robusta frente a relaciones no lineales en datos ordenados.
 
-**Nota**:(La correlación de Spearman calcula la correlación entre los rangos de las secuencias. El rango de una secuencia es otra secuencia de la misma longitud cuyos valores son las  posiciones que ocuparía el valor de la variable original cuando la secuencia de partida se ordena en orden creciente, por ejmplo, si aa<-c(1,3.8,5,2.3), rank(aa) es la secuencia (1,3,4,2), ya que estas serían las posiciones en la secuencia ordenada de los valores de la secuencia inicial.). Cualquier función creciente (lineal o no lineal), aplicada sobre los datos no modifica el resultado de la correlación de Spearman.
+  Nota  :(La correlación de Spearman calcula la correlación entre los rangos de las secuencias. El rango de una secuencia es otra secuencia de la misma longitud cuyos valores son las  posiciones que ocuparía el valor de la variable original cuando la secuencia de partida se ordena en orden creciente, por ejmplo, si aa<-c(1,3.8,5,2.3), rank(aa) es la secuencia (1,3,4,2), ya que estas serían las posiciones en la secuencia ordenada de los valores de la secuencia inicial.). Cualquier función creciente (lineal o no lineal), aplicada sobre los datos no modifica el resultado de la correlación de Spearman.
 
 Para comprobarlo, vamos a aplicar una función no lineal a una de las variables y a calcular la correlación usando los métodos de Pearson y Spearman. Compruébalo entre las variables `sqrt(ALG.num)` y `MD.num`, comparando con los resultados anteriores. 
 
@@ -387,11 +387,11 @@ cat(paste("Spearman (Transformado): ", round(new_spearman, 4), "\n\n"))
 cat("--- Comparación y Conclusión ---\n")
 cat(paste(
   "El coeficiente de Pearson CAMBIÓ (de", round(original_pearson, 4), "a", round(new_pearson, 4), 
-  ") porque la transformación de raíz cuadrada (y = sqrt(x)) no es lineal, y Pearson mide solo la relación *lineal*.\n"
+  ") porque la transformación de raíz cuadrada (y = sqrt(x)) no es lineal, y Pearson mide solo la relación  lineal .\n"
 ))
 cat(paste(
   "El coeficiente de Spearman NO CAMBIÓ (", round(original_spearman, 4), "vs", round(new_spearman, 4), 
-  ") porque la raíz cuadrada es una función *monotónica creciente*. Esto significa que si X1 > X2, entonces sqrt(X1) > sqrt(X2). Como Spearman solo se basa en el *ranking* (la posición ordenada) de los datos, y el ranking no cambia con una transformación monotónica, la correlación de Spearman permanece idéntica.\n"
+  ") porque la raíz cuadrada es una función  monotónica creciente . Esto significa que si X1 > X2, entonces sqrt(X1) > sqrt(X2). Como Spearman solo se basa en el  ranking  (la posición ordenada) de los datos, y el ranking no cambia con una transformación monotónica, la correlación de Spearman permanece idéntica.\n"
 ))
 ```
 
@@ -418,7 +418,7 @@ pairs(notas_num,
 
 # --- Plot 2: ggcorr (GGally) ---
 # Muestra una matriz de correlación (heatmap).
-# Es excelente para ver la *magnitud* y *dirección* de la correlación
+# Es excelente para ver la  magnitud  y  dirección  de la correlación
 # de un vistazo usando colores.
 cat("\n--- 2. Gráfico 'ggcorr' (GGally) ---\n")
 print(
@@ -461,17 +461,48 @@ print(
 
 Vamos a considerar 2 variables categóricas para determinar su relación en términos de dependencia con el test Chi cuadrado de Pearson ($\chi^2$).
 
-  * Comprueba la dependencia entre los tipos de calificaciones de ALG y ANM.
-  * Comprueba si existe dependencia entre la calificación de ALG y la variable Sex.
+    Comprueba la dependencia entre los tipos de calificaciones de ALG y ANM.
+    Comprueba si existe dependencia entre la calificación de ALG y la variable Sex.
 
 Nota: usa la función `chisq.test` con el parámetro `correct=FALSE` y analiza su significancia estadística (si $p<0,05$ rechazamos la hipótesis nula de independencia y concluimos que existe dependencia entre las variables). 
 
 ```{r Solucion_Ej9, include=TRUE, echo=TRUE, eval=TRUE, results=TRUE}
+# Comprobación de dependencia entre ALG.cat y ANM.cat
 
+# 1. Realizamos el test Chi-cuadrado
+# H0 (Hipótesis Nula): Las calificaciones de ALG y ANM son independientes.
+# H1 (Hipótesis Alternativa): Las calificaciones de ALG y ANM son dependientes.
+test_alg_anm <- chisq.test(Datos$ALG.cat, Datos$ANM.cat, correct = FALSE)
+
+print(test_alg_anm)
+
+# 3. Interpretación:
+
+# Dado que p-value (<< 0.05) es menor que el nivel de significancia 0.05,
+# rechazamos la hipótesis nula (H0).
+#
+# Conclusión: Existe una dependencia estadística significativa entre
+# las calificaciones obtenidas en ALG y ANM. (Lo cual es esperable).
 ```
 
 
 ```{r Solucion_Ej9b, include=TRUE, echo=TRUE, eval=TRUE, results=TRUE}
+# Comprobación de dependencia entre ALG.cat y Sex
+
+# 1. Realizamos el test Chi-cuadrado
+# H0 (Hipótesis Nula): La calificación de ALG y el Sexo son independientes.
+# H1 (Hipótesis Alternativa): La calificación de ALG y el Sexo son dependientes.
+test_alg_sex <- chisq.test(Datos$ALG.cat, Datos$Sex, correct = FALSE)
+
+print(test_alg_sex)
+
+# El resultado muestra un p-valor (p-value) muy alto.
+#
+# Dado que el p-value es mayor que 0.05, no podemos rechazar
+# la hipótesis nula (H0) de independencia.
+#
+# Conclusión: No encontramos evidencia estadística suficiente para
+# afirmar que exista dependencia entre la calificación de ALG y el Sexo.
 
 ```
 
