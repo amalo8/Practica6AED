@@ -35,7 +35,7 @@ opts_chunk$set(fig.width=6, fig.height=4)
 
 rm(list=ls())
 library(pacman)
-packages = c("knitr", "ggplot2","tidyr","dplyr","readr","GGally")
+packages = c("knitr", "ggplot2","tidyr","dplyr","readr","GGally","dplyr")
 pacman::p_load(char=packages)
 
 ```
@@ -401,7 +401,58 @@ Dibuja las matrices de correlación del conjunto de notas numéricas.
 Podemos usar `pairs` del paquete base o bien `ggcorr` y `ggpairs` de la librería `GGally`.
 
 ```{r Solucion_Ej8, include=TRUE, echo=TRUE, eval=TRUE, results=TRUE}
+# 1. Seleccionar solo las variables de notas numéricas
+notas_num <- Datos %>%
+  select(ends_with(".num"))
 
+# --- Plot 1: pairs (Base R) ---
+# Muestra una matriz de gráficos de dispersión (scatterplot matrix).
+# Es útil para ver la forma de la relación (lineal, curva, etc.).
+cat("--- 1. Gráfico 'pairs' (Base R) ---\n")
+pairs(notas_num,
+      main = "Matriz de Dispersión (Base R pairs)",
+      pch = 19, 
+      col = alpha("blue", 0.5) 
+)
+
+
+# --- Plot 2: ggcorr (GGally) ---
+# Muestra una matriz de correlación (heatmap).
+# Es excelente para ver la *magnitud* y *dirección* de la correlación
+# de un vistazo usando colores.
+cat("\n--- 2. Gráfico 'ggcorr' (GGally) ---\n")
+print(
+  ggcorr(
+    notas_num,
+    method = c("pairwise", "pearson"), # Método (consistente con Ej7)
+    label = TRUE,                  # Añadir valores numéricos
+    label_round = 2,               # Redondear a 2 decimales
+    hjust = 0.75,                  # Ajuste horizontal de la etiqueta
+    size = 3,                      # Tamaño de la etiqueta
+    color = "grey50",              # Color del texto de la etiqueta
+    layout.exp = 1                 # Expande el layout
+  ) +
+    labs(title = "Matriz de Correlación (ggcorr)")
+)
+# 
+
+# --- Plot 3: ggpairs (GGally) ---
+# Es la visualización más completa. Combina:
+# - Diagonal: Distribución (densidad) de cada variable.
+# - Triángulo inferior: Gráficos de dispersión (como 'pairs').
+# - Triángulo superior: Valores de correlación (como 'ggcorr').
+
+cat("\n--- 3. Gráfico 'ggpairs' (GGally) ---\n")
+print(
+  ggpairs(
+    notas_num,
+    title = "Matriz de Pares (ggpairs)",
+    progress = FALSE, # Ocultar barra de progreso
+    upper = list(continuous = wrap("cor", method = "pearson", size = 4)), # Correlación arriba
+    lower = list(continuous = wrap("points", alpha = 0.5, size = 1.5)) # Puntos abajo
+  )
+)
+#
 ```
 
 # Análisis bivariante de variables categóricas
