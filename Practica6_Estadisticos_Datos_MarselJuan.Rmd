@@ -1,13 +1,14 @@
 ---
 title: "Práctica 6. Análisis Exploratorio de Datos."
 subtitle: "Análisis Exploratorio de Datos, Máster en Ciencia de Datos - UV"
+author: "Adriana Marí López"
 output:
+  pdf_document:
+    toc: yes
   html_document:
     echo: yes
     number_sections: no
     theme: lumen
-    toc: yes
-  pdf_document:
     toc: yes
 ---
 
@@ -106,8 +107,8 @@ Inspecciona visualmente los valores del conjunto de datos (`View`) y ordena de m
 
 ```{r Solucion_Ej2, include=TRUE, echo=TRUE, eval=TRUE, results=TRUE}
 
-View(Datos)
-# 
+#View(Datos)
+ 
 # Datos %>% arrange(Age) %>% head()
 # 
 # Datos %>% arrange(desc(Age)) %>% head()
